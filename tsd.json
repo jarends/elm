@@ -1,0 +1,36 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "typings",
+  "bundle": "typings/tsd.d.ts",
+  "installed": {
+    "easeljs/easeljs.d.ts": {
+      "commit": "faff1866df10486a4c50904236183edc62ca841e"
+    },
+    "tweenjs/tweenjs.d.ts": {
+      "commit": "faff1866df10486a4c50904236183edc62ca841e"
+    },
+    "preloadjs/preloadjs.d.ts": {
+      "commit": "faff1866df10486a4c50904236183edc62ca841e"
+    },
+    "soundjs/soundjs.d.ts": {
+      "commit": "faff1866df10486a4c50904236183edc62ca841e"
+    },
+    "webaudioapi/waa.d.ts": {
+      "commit": "faff1866df10486a4c50904236183edc62ca841e"
+    },
+    "webrtc/MediaStream.d.ts": {
+      "commit": "faff1866df10486a4c50904236183edc62ca841e"
+    },
+    "createjs/createjs.d.ts": {
+      "commit": "faff1866df10486a4c50904236183edc62ca841e"
+    },
+    "createjs-lib/createjs-lib.d.ts": {
+      "commit": "faff1866df10486a4c50904236183edc62ca841e"
+    },
+    "greensock/greensock.d.ts": {
+      "commit": "faff1866df10486a4c50904236183edc62ca841e"
+    }
+  }
+}

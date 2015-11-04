@@ -1,0 +1,14 @@
+{
+  "name":    "KHHTMLPlayer",
+  "version": "0.0.1",
+  "dependencies":
+  {
+    "EaselJS":       "0.8.1",
+    "PreloadJS":     "0.6.1",
+    "SoundJS":       "0.6.1",
+    "TweenJS":       "0.6.1",
+    "normalize.css": "3.0.3",
+    "greensock":     "1.17.0",
+    "minto":         "git@vc.nettrek.biz:nettrek-projekte/minto-framework.git#0.1.4"
+  }
+}
