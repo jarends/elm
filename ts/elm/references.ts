@@ -7,4 +7,5 @@
 /// <reference path="utils/utils.ts" />
 /// <reference path="view/TreeFlattener.ts" />
 /// <reference path="view/TreeRenderer.ts" />
+/// <reference path="view/TreeSelector.ts" />
 /// <reference path="view/TreeView.ts" />

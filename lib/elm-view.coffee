@@ -27,6 +27,9 @@ class ElmView extends ScrollView
             @wbt = JSON.parse(data)
             @elm = new elm.Abelm(@uri, @wbt, @element)
 
+    detached: ->
+        @elm.dispose();
+
     serialize: ->
         deserializer: 'ElmView'
         data:

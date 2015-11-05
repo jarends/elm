@@ -2,7 +2,8 @@ module elm
 {
     export class TreeView extends minto.Actor
     {
-        public flattener: TreeFlattener;
+        public flattener:TreeFlattener;
+        public selector:TreeSelector;
         public view:HTMLDivElement;
         public contentView:HTMLDivElement;
         public renderers:TreeRenderer[];
@@ -13,38 +14,35 @@ module elm
 
 
 
-
         constructor(abelm: Abelm)
         {
             super(abelm);
-            this.flattener = new elm.TreeFlattener(this);
-            this.eventMap  = new minto.EventMap();
-            this.renderers = [];
-            this.cache     = [];
-            this.rowHeight = 20;
-            this.rowGap    = 2;
+
+            this.view          = document.createElement("div");
+            this.contentView   = document.createElement("div");
+            this.view.tabIndex = -1;
+            this.flattener     = new elm.TreeFlattener(this);
+            this.selector      = new TreeSelector(this);
+            this.eventMap      = new minto.EventMap();
+            this.renderers     = [];
+            this.cache         = [];
+            this.rowHeight     = 20;
+            this.rowGap        = 2;
+
+            this.contentView.style.height = 0 + "px";
+            this.contentView.style.width  = 100 + "%";
+            this.contentView.classList.add("elm-tree-view-content");
+
+            this.view.classList.add("elm-tree-view");
+            this.view.appendChild(this.contentView);
+
+            this.eventMap.mapEvent(this.view, "scroll", (event:any) => { this.draw(); });
+            this.eventMap.mapEvent(window,    "resize", (event:any) => { this.draw(); });
         }
 
 
         public getView():HTMLDivElement
         {
-            if(!this.view)
-            {
-                this.view = document.createElement("div");
-                this.view.style.position = "absolute";
-                this.view.style.width    = "100%";
-                this.view.style.height   = "100%";
-                this.view.style.overflow = "auto";
-
-                this.contentView = document.createElement("div");
-                this.contentView.style.position = "absolute";
-                this.contentView.style.height = 0 + "px";
-                this.contentView.style.width  = 100 + "%";
-
-                this.view.appendChild(this.contentView);
-                this.eventMap.mapEvent(this.view, "scroll", (event:any) => { this.draw(); });
-                this.eventMap.mapEvent(window,    "resize", (event:any) => { this.draw(); });
-            }
             return this.view;
         }
 

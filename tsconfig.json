@@ -24,6 +24,7 @@
         "./ts/elm/utils/utils.ts",
         "./ts/elm/view/TreeFlattener.ts",
         "./ts/elm/view/TreeRenderer.ts",
+        "./ts/elm/view/TreeSelector.ts",
         "./ts/elm/view/TreeView.ts"
     ]
 }

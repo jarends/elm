@@ -66,12 +66,18 @@ module elm
 			if(index == -1 && (node != this.root || node == null))
 				return;
 
-            var list:any[] = [];
-            var startIndex:number = index + 1;
-    		this.addChildren(node, recursive, list);
-            list.unshift(0);
-            list.unshift(startIndex);
-            this.list.splice.apply(this.list, list);
+            var list:any[] = [],
+                startIndex:number = index + 1,
+                secondList:any[];
+
+            this.addChildren(node, recursive, list);
+
+            if(list.length)
+            {
+                secondList = this.list.splice(startIndex, this.list.length - startIndex);
+                this.list  = this.list.concat(list);
+                this.list  = this.list.concat(secondList);
+            }
             this.working = false;
 		}
 
@@ -145,33 +151,108 @@ module elm
 
 
 
+        /*
 		public addChildren(node:TreeNode, recursive:boolean, list:TreeNode[]):void
 		{
+			var startNode:TreeNode = node,
+                children:TreeNode[],
+                l:number,
+			    i:number,
+			    owner:TreeNode;
+
+            while(node)
+            {
+                if(!node.parsed)
+                    this.parseNode(node);
+
+                if(node != startNode)
+                    list.push(node);
+                children = node.children;
+
+                if(children && children.length && (recursive || node.expanded || node == startNode))
+                {
+                    node.expanded = true;
+                    node = children[0];
+                }
+                else if(node != startNode)
+                {
+                    owner    = node.owner;
+                    children = owner.children;
+                    l        = children.length;
+                    i        = children.indexOf(node);
+
+                    if(i < l - 1)
+                    {
+                        node = children[i + 1];
+                    }
+                    else
+                    {
+                        if(owner == startNode)
+                        {
+                            node = null;
+                        }
+                        else
+                        {
+                            while((owner) && (owner != startNode))
+                            {
+                                node     = node.owner
+                                owner    = node.owner;
+                                children = owner.children;
+                                l        = children.length;
+                                i        = children.indexOf(node);
+
+                                if(i < l - 1)
+                                {
+                                    node  = children[i + 1];
+                                    owner = null;
+                                }
+                            }
+
+                            if(owner == startNode)
+                                node = null;
+                        }
+                    }
+                }
+                else
+                {
+                    node = null;
+                }
+            }
+		}
+        */
+
+
+
+
+        public addChildren(node:TreeNode, recursive:boolean, list:TreeNode[]):void
+        {
             if(!node.parsed)
                 this.parseNode(node);
 
-			node.expanded = true;
+            node.expanded = true;
 
-			var children:TreeNode[] = node.children,
+            var children:TreeNode[] = node.children,
                 l:number            = children ? children.length : 0,
-			    i:number,
-			    child:TreeNode;
+                i:number,
+                child:TreeNode;
 
-			for(i = 0; i < l; ++i)
-			{
-				child = children[i];
+            for(i = 0; i < l; ++i)
+            {
+                child = children[i];
                 list.push(child);
 
-				if(recursive || child.expanded)
-					this.addChildren(child, recursive, list);
-			}
-		}
+                if(recursive || child.expanded)
+                    this.addChildren(child, recursive, list);
+            }
+        }
 
 
 
 
 		public removeChildren(node:TreeNode, recursive:boolean, removeFromExpanded:boolean, count:number):number
 		{
+            var startNode:TreeNode = node;
+
             if(!node.parsed)
                 this.parseNode(node);
 
@@ -267,9 +348,7 @@ module elm
 
 		public clearAll():void
 		{
-            var node:TreeNode;
-			while(this.list.length)
-                this.list.pop();
+            this.list.splice(0, this.list.length);
             this.clearNode(this.root);
 		}
 
@@ -279,25 +358,41 @@ module elm
         public clearNode(node:TreeNode):void
         {
             var children:TreeNode[] = node.children,
+                l:number            = children ? children.length : 0,
+                i:number,
                 child:TreeNode;
 
-            while(children && children.length)
+            for(i = 0; i < l; ++i)
             {
-                child = children.pop();
+                child = children[i];
                 this.clearNode(child);
             }
 
+            l ? node.children.splice(0, l) : null;
+            node.parsed = false;
+
             if(node != this.root)
             {
-                node.selected = false;
-                node.expanded = false;
-                node.parsed   = false;
-                node.value    = null;
+                node.name     = null;
+                node.type     = null;
                 node.owner    = null;
                 node.depth    = NaN;
-                if(this.cache.indexOf(node) == -1)
-                    this.cache.push(node);
+                node.selected = false;
+                node.expanded = false;
+                node.value    = null;
+                this.cache.push(node);
             }
+        }
+
+
+
+
+        public dispose():void
+        {
+            this.clearAll();
+            var root:TreeNode = this.root;
+            this.root         = null;
+            this.clearNode(root);
         }
 
 
@@ -311,14 +406,5 @@ module elm
 
 			this.expand(this.root, false);
 		}
-
-
-
-
-        public dispose():void
-        {
-            this.root = null;
-            this.clearAll();
-        }
     }
 }

@@ -5,6 +5,7 @@ declare module elm {
     class Abelm extends minto.Context {
         constructor(id: string, data: any, view: HTMLDivElement);
         startup(data: any): void;
+        dispose(): void;
     }
 }
 declare module elm {
@@ -66,8 +67,8 @@ declare module elm {
         parseNode(node: TreeNode): void;
         clearAll(): void;
         clearNode(node: TreeNode): void;
-        update(): void;
         dispose(): void;
+        update(): void;
     }
 }
 declare module elm {
@@ -87,15 +88,32 @@ declare module elm {
         valueView: HTMLElement;
         treeView: TreeView;
         eventMap: minto.EventMap;
+        isOver: boolean;
+        isDown: boolean;
         constructor(treeView: TreeView);
         setData(node: TreeNode): void;
-        updateLabel(): void;
+        updateData(): void;
+        iconClickHandler(event: MouseEvent): void;
         clickHandler(event: MouseEvent): void;
+        mouseOverHandler(event: MouseEvent): void;
+        mouseOutHandler(event: MouseEvent): void;
+        mouseDownHandler(event: MouseEvent): void;
+        mouseUpHandler(event: MouseEvent): void;
+    }
+}
+declare module elm {
+    class TreeSelector {
+        treeView: TreeView;
+        selectedNodes: TreeNode[];
+        selectedNode: TreeNode;
+        constructor(treeView: TreeView);
+        select(node: TreeNode): void;
     }
 }
 declare module elm {
     class TreeView extends minto.Actor {
         flattener: TreeFlattener;
+        selector: TreeSelector;
         view: HTMLDivElement;
         contentView: HTMLDivElement;
         renderers: TreeRenderer[];

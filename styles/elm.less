@@ -7,31 +7,89 @@
 .elm {
 }
 
-.elm .tree-renderer {
+.elm-container {
     position: absolute;
-    background-color: #222222;
-    height: 20px;
     width: 100%;
-    cursor: pointer;
+    height: 100%;
+    overflow: auto;
+    background-color: @pane-item-background-color;
+}
 
+.elm-tree-view {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    border-right: 1px solid #000000;
+    background-color: @pane-item-background-color;
+}
+
+.elm-tree-view-content {
+    height: 0px;
+    width: 100%;
+    background-color: @pane-item-background-color;
+}
+
+.elm-tree-renderer {
+    display: block;
+    position: absolute;
+    background-color: rgb(48, 51, 54);
+    height: 20px;
+    line-height: 20px;
+    width: 100%;
+    cursor: default;
+    color: rgb(170, 170, 170);
+    white-space: nowrap;
+
+/**/
     -webkit-user-select: none;
        -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
+
+}
+
+.elm-tree-renderer span {
+    display: inline-block;
+    overflow: hidden;
+    word-wrap: normal;
 }
 
 .elm-tree-renderer-icon {
-    display: inline-block;
     width: 25px;
-    min-width: 25px;
     font-size: 8px;
 }
 
 .elm-tree-renderer-label {
-    display: inline-block;
-    width: 120px;
+    width: 140px;
 }
 
  .elm-tree-renderer-value {
-    display: inline-block;
+     margin-left: 20px;
+     color: rgb(205, 205, 205);
+}
+.elm-tree-renderer-current-selected .elm-tree-renderer-value, .elm-tree-renderer-selected .elm-tree-renderer-value {
+    color: #FFFFFF;
+}
+
+.elm-tree-renderer-icon::before {
+    content: "▶";
+}
+
+.elm-tree-renderer-expanded::before {
+    content: "▼";
+}
+
+.elm-tree-renderer-no-expand {
+    visibility: hidden;
+}
+
+.elm-tree-renderer-current-selected {
+    background-color: @background-color-selected;
+    color: #FFFFFF;
+}
+
+.elm-tree-renderer-selected {
+    background-color: @background-color-selected;
+    color: #FFFFFF;
 }
