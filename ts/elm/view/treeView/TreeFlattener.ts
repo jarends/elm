@@ -83,13 +83,13 @@ module elm
         //    00000000  000   000  000        000   000  000   000  0000000
 
         public expand(node:TreeNode, recursive?:boolean):void
-		{
+        {
             if(!node.parsed)
                 this.parseNode(node);
 
-			var index:number = node.index;
-			if(index == -1 && (node != this.root || node == null))
-				return;
+            var index:number = node.index;
+            if(index == -1 && (node != this.root || node == null))
+                return;
 
             var list:TreeNode[] = this.list,
                 addeds:any[]    = [],
@@ -115,7 +115,7 @@ module elm
 
             }
             this.treeView.drawLater();
-		}
+        }
 
 
 
@@ -126,22 +126,22 @@ module elm
         //    000       000   000  000      000      000   000  000             000  000
         //     0000000   0000000   0000000  0000000  000   000  000        0000000   00000000
 
-		public collapse(node:TreeNode, recursive?:boolean):void
-		{
+        public collapse(node:TreeNode, recursive?:boolean):void
+        {
             if(!node.parsed)
                 this.parseNode(node);
 
-			var index:number    = node.index,
+            var index:number    = node.index,
                 list:TreeNode[] = this.list,
                 count:number,
                 length:number,
                 i:number,
                 child:TreeNode;
 
-			if(index == -1 && (node != this.root || node == null))
-				return;
+            if(index == -1 && (node != this.root || node == null))
+                return;
 
-		    count = this.removeChildren(node, recursive, true, 0);
+            count = this.removeChildren(node, recursive, true, 0);
             if(count)
             {
                 list.splice(++index, count);
@@ -152,7 +152,7 @@ module elm
 
                 this.treeView.drawLater();
             }
-		}
+        }
 
 
 
@@ -163,23 +163,23 @@ module elm
         //    000        000 000   000        000   000  000  0000  000   000  000   000  000      000
         //    00000000  000   000  000        000   000  000   000  0000000    000   000  0000000  0000000
 
-		public expandAll():void
-		{
+        public expandAll():void
+        {
             if(!this.root.parsed)
                 this.parseNode(this.root);
 
-			if(this.showRoot)
-			{
-				this.expand(this.root, true);
-				return;
-			}
+            if(this.showRoot)
+            {
+                this.expand(this.root, true);
+                return;
+            }
 
-			var children:TreeNode[] = this.root.children;
-			var l:number = children ? children.length : 0;
-			var i:number;
-			for(i = 0; i < l; ++i)
-				this.expand(children[i], true);
-		}
+            var children:TreeNode[] = this.root.children;
+            var l:number = children ? children.length : 0;
+            var i:number;
+            for(i = 0; i < l; ++i)
+                this.expand(children[i], true);
+        }
 
 
 
@@ -190,24 +190,24 @@ module elm
         //    000       000   000  000      000      000   000  000             000  000       000   000  000      000
         //     0000000   0000000   0000000  0000000  000   000  000        0000000   00000000  000   000  0000000  0000000
 
-		public collapseAll():void
-		{
+        public collapseAll():void
+        {
             if(!this.root.parsed)
                 this.parseNode(this.root);
 
-			if(this.showRoot)
-			{
-				this.collapse(this.root, true);
-				return;
-			}
+            if(this.showRoot)
+            {
+                this.collapse(this.root, true);
+                return;
+            }
 
             var children:TreeNode[] = this.root.children,
                 l:number            = children ? children.length : 0,
-			    i:number;
+                i:number;
 
             for(i = 0; i < l; ++i)
-				this.collapse(children[i], true);
-		}
+                this.collapse(children[i], true);
+        }
 
 
 
@@ -255,7 +255,7 @@ module elm
         //    000   000  00000000  000   000   0000000       0      00000000
 
         public removeChildren(node:TreeNode, recursive:boolean, removeFromExpanded:boolean, count:number):number
-		{
+        {
             var startNode:TreeNode = node;
 
             if(!node.parsed)
@@ -265,26 +265,26 @@ module elm
 
             var children:TreeNode[] = node.children,
                 l:number            = children ? children.length : 0,
-			    i:number,
+                i:number,
                 index:number,
-			    child:TreeNode;
+                child:TreeNode;
 
-			for(i = 0; i < l && node.expanded; ++i)
-			{
-				child = children[i];
+            for(i = 0; i < l && node.expanded; ++i)
+            {
+                child = children[i];
                 child.index = -1;
-				if(recursive || child.expanded)
-					count += this.removeChildren(child, recursive, recursive, 0);
-			}
+                if(recursive || child.expanded)
+                    count += this.removeChildren(child, recursive, recursive, 0);
+            }
 
             if(l && node.expanded)
                 count += l;
 
             if(removeFromExpanded)
-			    node.expanded = false;
+                node.expanded = false;
 
             return count;
-		}
+        }
 
 
 
@@ -563,11 +563,11 @@ module elm
         //     0000000  0000000  00000000  000   000  000   000  000   000  0000000  0000000
 
         public clearAll():void
-		{
+        {
             this.list.splice(0, this.list.length);
             this.clearNode(this.root);
             this.treeView.drawLater();
-		}
+        }
 
 
 
@@ -636,11 +636,11 @@ module elm
         //     0000000   000        0000000    000   000     000     00000000
 
         public update():void
-		{
+        {
             this.clearAll()
-			if(this.showRoot)
+            if(this.showRoot)
             {
-				this.list.push(this.root);
+                this.list.push(this.root);
                 this.root.index = 0;
             }
             else
@@ -648,7 +648,7 @@ module elm
                 this.root.index = -1;
             }
 
-			this.expand(this.root, false);
-		}
+            this.expand(this.root, false);
+        }
     }
 }
