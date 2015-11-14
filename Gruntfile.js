@@ -36,7 +36,7 @@ module.exports = function(grunt)
             elm:
             {
                 src:  ['ts/elm/references.ts'],
-                dest: 'lib/elm_core.js',
+                dest: 'js/elm_core.js',
                 options:
                 {
                     target:         'es5', //or es3
@@ -97,6 +97,31 @@ module.exports = function(grunt)
         },
 
 
+        //    00     00  00000000   00000000   0000000   000   000  000  00000000   00000000
+        //    000   000  000   000  000       000   000  000   000  000  000   000  000
+        //    000000000  0000000    0000000   000 00 00  000   000  000  0000000    0000000
+        //    000 0 000  000   000  000       000 0000   000   000  000  000   000  000
+        //    000   000  000   000  00000000   00000 00   0000000   000  000   000  00000000
+
+        mrequire:
+        {
+            elm:
+            {
+                options:
+                {
+                    exports: ["minto", "elm", "JSDictionary"],
+                    dest: "./lib/elm_core_all.js"
+                },
+                src:
+                [
+                    "./bower/minto/libs/jsdictionary/jsdictionary.js",
+                    "./bower/minto/libs/minto/minto_core.js",
+                    "./js/elm_core.js"
+                ]
+            }
+        },
+
+
         //    000   000   0000000   000000000   0000000  000   000
         //    000 0 000  000   000     000     000       000   000
         //    000000000  000000000     000     000       000000000
@@ -123,33 +148,7 @@ module.exports = function(grunt)
                     spawn: false,
                 },
             }
-        },
-
-
-        //    00     00  00000000   00000000   0000000   000   000  000  00000000   00000000
-        //    000   000  000   000  000       000   000  000   000  000  000   000  000
-        //    000000000  0000000    0000000   000 00 00  000   000  000  0000000    0000000
-        //    000 0 000  000   000  000       000 0000   000   000  000  000   000  000
-        //    000   000  000   000  00000000   00000 00   0000000   000  000   000  00000000
-
-        mrequire:
-        {
-            elm:
-            {
-                options:
-                {
-                    exports: ["minto", "elm", "JSDictionary"],
-                    dest: "./lib/elm_core_all.js"
-                },
-                src:
-                [
-                    "./bower/minto/libs/jsdictionary/jsdictionary.js",
-                    "./bower/minto/libs/minto/minto_core.js",
-                    "./lib/elm_core.js"
-                ]
-            }
-        },
-
+        }
     });
 
 

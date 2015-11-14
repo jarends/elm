@@ -1,16 +1,18 @@
 {ScrollView} = require 'atom-space-pen-views'
-{minto, elm, JSDictionary} = require './elm_core_all.js'
-
-fs = require 'fs'
+{elm}        = require './elm_core_all.js'
+fs           = require 'fs'
+remote       = require 'remote'
+app          = remote.require 'app'
 
 module.exports =
 class ElmView extends ScrollView
 
-    atom.deserializers.add(@)
+    atom.deserializers.add(this)
 
     elm:null
     wbt:null
     uri:null
+    id:null
     name:null
 
     @content: ->
@@ -18,28 +20,34 @@ class ElmView extends ScrollView
 
     initialize: (data) ->
         super
-        #console.log("initialize: data = ", data)
+
+        console.log("ElmView.initialize: " + ElmView.version)
+
         @uri  = data.uri
-        @name = 'ElmView!! (hardcore) - ' + @uri
+        @id   = data.id || 'ElmPanel[' + @uri + ', ' + Math.random() + ']'
+        @name = 'elm ' + @uri
+        @elm  = new elm.ElmPanel(@id, @element, app);
+
         fs.readFile @uri, 'utf-8', (err, data) =>
             if err
                 throw err
             @wbt = JSON.parse(data)
-            @elm = new elm.Abelm(@uri, @wbt, @element)
+            @elm.startup(@wbt);
 
     detached: ->
-        @elm.dispose();
+        @elm.detachLater();
 
     serialize: ->
         deserializer: 'ElmView'
         data:
             uri: @uri
+            id:  @id
 
     @deserialize: ({data}) =>
         new ElmView(data)
 
     isEqual: (other) ->
-        other instanceof ElmView
+        other instanceof ElmView and other.id == @id
 
     getTitle: -> @name
 
